@@ -2,8 +2,8 @@
 //  Authentication and registration service.
 
 // Architecture role: Service Layer (Business Logic).
-//   - works with the Data Access Layer (UserRepository).
-//   - works the Presentation Layer (LoginScreen / ConsoleApp).
+//   works with the Data Access Layer (UserRepository).
+//   works the Presentation Layer (LoginScreen / ConsoleApp).
 
 
 package com.genzfits.service;
