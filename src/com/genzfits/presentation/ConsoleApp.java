@@ -9,6 +9,7 @@ import com.genzfits.model.PaymentMethod;
 import com.genzfits.model.Product;
 import com.genzfits.model.User;
 import com.genzfits.service.AuthService;
+import com.genzfits.service.CartService;
 import com.genzfits.service.OrderService;
 import com.genzfits.service.ProductService;
 
@@ -24,13 +25,15 @@ public class ConsoleApp {
     	private final ProductService productService;
      private final OrderService   orderService;
      private final ConsoleUI      ui = new ConsoleUI();
+     private final CartService cartService;
 
     private Customer loggedInCustomer = null;
 
     public ConsoleApp(AuthService authService, ProductService productService,
-                       OrderService orderService) {
+                       CartService cartService,OrderService orderService) {
          this.authService    = authService;
           this.productService = productService;
+          this.cartService = cartService;
         this.orderService   = orderService;
     }
 
@@ -69,7 +72,7 @@ public class ConsoleApp {
 	    private void doLogin() {
 	        ui.heading("Customer Login");
 	        String email    = ui.prompt("email");
-	        String password = ui.prompt("passwor");
+	        String password = ui.prompt("password");
 	        Optional<User> result = authService.login(email, password);
 	        if (result.isEmpty()) {
 	            ui.println("Login failed: incorrect email or password.");
@@ -100,7 +103,7 @@ public class ConsoleApp {
 
     // menu for customer after login
     private boolean showCustomerMenu() {
-        ui.heading("Main Menu — " + loggedInCustomer.getFullName());
+        ui.heading("Main Menu -- " + loggedInCustomer.getFullName());
         ui.println("1. Browse products");
         ui.println("2. View cart");
         ui.println("3. Checkout");
@@ -111,6 +114,7 @@ public class ConsoleApp {
         int choice = ui.promptInt("Choose");
         switch (choice) {
             case 1:  browseProducts();   return true;
+            case 2: viewCart();         return true;
             case 3:  checkout();         return true;
 	        case 4:  viewOrderHistory(); return true;
 	        case 5:  logout();           return true;
@@ -146,6 +150,7 @@ public class ConsoleApp {
 
         int qty = ui.promptInt("Quantity");
         try {
+            cartService.addToCart(loggedInCustomer, selected.get(), qty);
             ui.println("Added " + qty + " x " + selected.get().getName() + " to cart.");
         } catch (IllegalArgumentException e) {
             ui.println("" + e.getMessage());
@@ -153,10 +158,29 @@ public class ConsoleApp {
     }
 
 
+    private void viewCart() {
+        ui.heading("Your Cart");
+        var cart = cartService.viewCart(loggedInCustomer);
+        if (cart.isEmpty()) {
+            ui.println("Cart is empty.");
+            return;
+        }
+        cart.getItems().forEach(item -> ui.println("  " + item));
+        ui.println("  -----------------------------");
+        ui.println("  Total: $" + cart.getTotal());
+    }
+
     // Checkout for customer payment
     private void checkout() {
         ui.heading("Checkout");
+        if (cartService.viewCart(loggedInCustomer).isEmpty()) {
+            ui.println("Cart is empty - nothing to checkout.");
+            return;
+        }
+        // Show what is being purchased.
+        viewCart();
 
+        // Collect shipping address.
         ui.blank();
         ui.println("Enter shipping address:");
         Address address = new Address(
@@ -166,41 +190,40 @@ public class ConsoleApp {
                 ui.prompt("Postcode"),
                 "Australia");
 
+        // Choose payment method.
         ui.blank();
         ui.println("Payment method:");
-        ui.println("  1. Credit card");
+        ui.println("  1. Credit/Debit card");
         ui.println("  2. Afterpay");
-
         int payChoice = ui.promptInt("Choose");
         PaymentMethod method;
-
         if (payChoice == 1) {
             String number = ui.prompt("Card number");
             String expiry = ui.prompt("Expiry (MM/YY)");
             method = new CreditCardPayment(loggedInCustomer.getFullName(), number, expiry);
-
         } else if (payChoice == 2) {
-            String afterpayEmail = ui.prompt("Afterpay accoun");
+            String afterpayEmail = ui.prompt("Afterpay account email");
             method = new AfterpayPayment(loggedInCustomer.getFullName(), afterpayEmail);
-
         } else {
-            ui.println("Invalid payment method.insert right one");
+            ui.println("Invalid payment method. Aborting checkout.");
             return;
         }
 
-
+        // Place the order via the Service Layer.
         try {
             Order order = orderService.placeOrder(loggedInCustomer, address, method);
             ui.blank();
-             ui.println(" Order placed successfully!");
-             ui.println("Order ID:       " + order.getId());
-            ui.println("   Status:         " + order.getStatus());
-            ui.println("Total charged:  $"+order.getTotalAmount());
-            ui.println(" Payment:        " + method.getDisplayLabel());
-            ui.println("Transaction ID: " + order.getPaymentTransactionId());
-            ui.println("  Ships to:       " + order.getShippingAddress());
+            ui.println("[OK] Order placed successfully!");
+            ui.println("  Order ID:        " + order.getId());
+            ui.println("  Status:          " + order.getStatus());
+            ui.println("  Total charged:   $" + order.getTotalAmount());
+            ui.println("  Payment:         " + method.getDisplayLabel());
+            ui.println("  Transaction ID:  " + order.getPaymentTransactionId());
+            ui.println("  Ships to:        " + order.getShippingAddress());
         } catch (Exception e) {
-            ui.println("Checkout is failed: " + e.getMessage());}}
+            ui.println("Checkout failed: " + e.getMessage());
+        }
+    }
 
 
     // show customer his order history
@@ -214,8 +237,8 @@ public class ConsoleApp {
 
         for (Order o : history) {
          ui.println("  " + o.getId()
-                    +" — " + o.getStatus()
-                     +"— $" + o.getTotalAmount()
+                    +" -- " + o.getStatus()
+                     +"-- $" + o.getTotalAmount()
            + " — " + o.getPlacedAt().toLocalDate());
   }}
 

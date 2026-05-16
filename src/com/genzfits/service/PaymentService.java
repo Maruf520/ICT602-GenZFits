@@ -11,13 +11,14 @@ import java.math.BigDecimal;
 public class PaymentService {
 
     public PaymentResult charge(PaymentMethod method, BigDecimal amount) {
+        // verifing if the amount is more than zero or not null
         if (amount == null || amount.signum() <= 0) {
             return new PaymentResult(false, null, "Invalid payment amount");
         }
+        // verifing if payment method selected or not
         if (method == null) {
             return new PaymentResult(false, null, "No payment method selected");
         }
-        // Polymorphic call — the concrete subclass decides how to process.
         return method.process(amount);
     }
 }

@@ -37,8 +37,8 @@ public class Main {
         // creating demo user and products at the beginnig 
         seedDemoData(userRepository, productRepository);
 
-        // Initialising the presentation layer (CLI)
-        ConsoleApp app = new ConsoleApp(authService, productService,  orderService);
+
+           ConsoleApp app = new ConsoleApp(authService, productService, cartService, orderService);
         app.run();
     }
     //Demo Customer with hashed password.
