@@ -5,15 +5,9 @@ import com.genzfits.model.PaymentResult;
 
 import java.math.BigDecimal;
 
-/**
- * Service Layer wrapper around payment processing (FR8).
- *
- * Delegates to the polymorphic PaymentMethod.process() so this class
- * does not know whether it is charging a credit card, an Afterpay
- * account, or any payment type added in the future. This is the
- * Open/Closed Principle in action: the service is closed against
- * modification but open to new payment-type extensions.
- */
+
+ // Service Layer wrapper around payment processing.
+ 
 public class PaymentService {
 
     public PaymentResult charge(PaymentMethod method, BigDecimal amount) {

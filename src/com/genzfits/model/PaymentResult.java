@@ -12,6 +12,7 @@ public class PaymentResult {
         this.message = message;
     }
 
+    // returning payment results
     public boolean isSuccess()        { return success; }
     public String  getTransactionId() { return transactionId; }
     public String  getMessage()       { return message; }

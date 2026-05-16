@@ -12,9 +12,11 @@ public class CartItem {
         this.quantity = quantity;
     }
 
+    // getter method
     public Product getProduct()  { return product; }
     public int     getQuantity() { return quantity; }
 
+    // verifing quantity
     public void setQuantity(int quantity) {
         if (quantity < 1) {
             throw new IllegalArgumentException("Quantity must be at least 1");
@@ -22,6 +24,7 @@ public class CartItem {
         this.quantity = quantity;
     }
 
+    // getting total amount of all the cart items
     public BigDecimal getSubtotal() {
         return product.getPrice().multiply(new BigDecimal(quantity));
     }

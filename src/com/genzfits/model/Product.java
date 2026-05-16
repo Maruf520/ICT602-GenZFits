@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 //Each products belongs to seller and one category.
 public class Product {
 
+    // declaring private variables
     private final String id;
     private final String name;
     private final String brand;
@@ -26,6 +27,7 @@ public class Product {
         this.sellerId = sellerId;
     }
 
+    // getter methods
     public String     getId()            { return id; }
     public String     getName()          { return name; }
     public String     getBrand()         { return brand; }

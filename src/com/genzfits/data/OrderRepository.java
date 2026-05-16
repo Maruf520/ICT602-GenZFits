@@ -15,15 +15,17 @@ public class OrderRepository {
 
     private final Map<String, Order> ordersById = new HashMap<>();
 
+    // saving a new order
     public void save(Order order) {
         ordersById.put(order.getId(), order);
     }
 
+    // finding an order by orderId
     public Optional<Order> findById(String id) {
         return Optional.ofNullable(ordersById.get(id));
     }
 
-    /** All orders for one customer — supports order history screens. */
+    // order history for user
     public List<Order> findByCustomerId(String customerId) {
         List<Order> result = new ArrayList<>();
         for (Order o : ordersById.values()) {

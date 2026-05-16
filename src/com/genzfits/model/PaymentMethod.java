@@ -10,9 +10,12 @@ public abstract class PaymentMethod {
         this.ownerName = ownerName;
     }
 
+    // getter method
     public String getOwnerName() { return ownerName; }
 
+    // inititing payment procedure
     public abstract PaymentResult process(BigDecimal amount);
 
+    // show results of the payment
     public abstract String getDisplayLabel();
 }

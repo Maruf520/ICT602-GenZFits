@@ -56,10 +56,12 @@ public class AuthService {
      
     public Optional<User> login(String email, String plaintextPassword) {
         Optional<User> found = userRepository.findByEmail(email);
+        // verifing is user exist or not
         if (found.isEmpty()) {
             return Optional.empty();
         }
         User user = found.get();
+        // matching password hash
         if (PasswordHasher.matches(plaintextPassword, user.getPasswordHash())) {
             return Optional.of(user);
         }

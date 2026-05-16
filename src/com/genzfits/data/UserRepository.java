@@ -7,22 +7,22 @@ import java.util.Map;
 import java.util.Optional;
 
 //Data Access Layer (DAL) for User records.
-
- //Architecture role: Data Access Layer. Called only by the Service Layer.
-
 public class UserRepository {
 
     private final Map<String, User> usersByEmail = new HashMap<>();
 
+    // saving new registered user
     public void save(User user) {
         usersByEmail.put(user.getEmail().toLowerCase(), user);
     }
 
+    // finding user by email
     public Optional<User> findByEmail(String email) {
         if (email == null) return Optional.empty();
         return Optional.ofNullable(usersByEmail.get(email.toLowerCase()));
     }
 
+    // checking if email already exist or not
     public boolean existsByEmail(String email) {
         return findByEmail(email).isPresent();
     }

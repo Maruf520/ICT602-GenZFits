@@ -15,20 +15,18 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Order placement service — the core of the complex module being demonstrated.
+ * Order placement service: The core of the complex module of our project.
  *
- * Orchestrates the full checkout flow:
+ * Demonstrate the full checkout flow:
  *   1. Validate that the cart is not empty.
- *   2. Build OrderItem snapshots from the current cart (freezes prices).
+ *   2. Build OrderItem snapshots from the current cart.
  *   3. Charge the customer via PaymentService.
  *   4. On payment success: deduct stock, save the order, mark it PAID,
  *      and clear the cart.
  *   5. On payment failure: leave stock and cart untouched.
  *
- * Architecture role: Service Layer — calls the Data Access Layer
- * (OrderRepository) and another Service (PaymentService). Knows nothing
- * about the CLI presentation.
  */
+
 public class OrderService {
 
     private final OrderRepository orderRepository;
@@ -51,7 +49,9 @@ public class OrderService {
     public Order placeOrder(Customer customer, Address shippingAddress,
                             PaymentMethod paymentMethod) {
 
+        // getting Cart details
         ShoppingCart cart = customer.getCart();
+        // checking if the cart is empty or not
         if (cart.isEmpty()) {
             throw new IllegalStateException("Cart is empty — nothing to order.");
         }
@@ -70,13 +70,13 @@ public class OrderService {
         Order order = new Order(orderId, customer, orderItems,
                 shippingAddress, paymentMethod, cart.getTotal());
 
-        // 3. Charge the payment method (polymorphic — see PaymentService).
+        // 3. verifing the payment method
         PaymentResult result = paymentService.charge(paymentMethod, order.getTotalAmount());
         if (!result.isSuccess()) {
             throw new RuntimeException("Payment failed: " + result.getMessage());
         }
 
-        // 4. Payment OK — finalise the order.
+        // 4. finalise the order upon successful payment
         order.markPaid(result.getTransactionId());
         for (CartItem cartItem : cart.getItems()) {
             cartItem.getProduct().decreaseStock(cartItem.getQuantity());
@@ -87,6 +87,7 @@ public class OrderService {
         return order;
     }
 
+    // getting customers order history
     public List<Order> getOrderHistory(Customer customer) {
         return orderRepository.findByCustomerId(customer.getId());
     }

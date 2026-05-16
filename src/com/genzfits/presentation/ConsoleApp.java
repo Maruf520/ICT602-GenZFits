@@ -51,20 +51,21 @@ public class ConsoleApp {
         ui.println(" ");
     }
 
-//Authentication
+    //Main menu of the CLI
     private boolean showAuthMenu() {
-         ui.heading("Login Menu");
+        ui.heading("Login Menu");
         ui.println("1. Login");
-         ui.println("2. Register new account");
+        ui.println("2. Register new account");
         ui.println("3. Exit");
 
         int choice = ui.promptInt("Choose");
         switch (choice) {
-           case 1:  doLogin();    return true;
-             case 2:  doRegister(); return true;
+            case 1:  doLogin();    return true;
+            case 2:  doRegister(); return true;
             case 3:  return false;
-          default: ui.println("Invalid"); return true;}}
+            default: ui.println("Invalid"); return true;}}
 
+        // User login
 	    private void doLogin() {
 	        ui.heading("Customer Login");
 	        String email    = ui.prompt("email");
@@ -83,7 +84,7 @@ public class ConsoleApp {
 	        loggedInCustomer = (Customer) user;
 	        ui.println("Logged in as " + loggedInCustomer.getFullName()
 	                + " (" + loggedInCustomer.getRoleLabel() + ")");}
-
+    // new user/customer register
     private void doRegister() {
         ui.heading("Register New Customer");
         String name     = ui.prompt("Full name");
@@ -96,25 +97,29 @@ public class ConsoleApp {
         } catch (IllegalArgumentException e) {
             ui.println("Registration failed: " + e.getMessage());
         }}
+
+    // menu for customer after login
     private boolean showCustomerMenu() {
         ui.heading("Main Menu — " + loggedInCustomer.getFullName());
-        	ui.println("1. Browse products");
+        ui.println("1. Browse products");
         ui.println("2. View cart");
-         ui.println("3. Checkout");
-         	ui.println("4. View order history");
-         		ui.println("5. Logout");
+        ui.println("3. Checkout");
+        ui.println("4. View order history");
+        ui.println("5. Logout");
         ui.println("6. Exit");
 
         int choice = ui.promptInt("Choose");
         switch (choice) {
             case 1:  browseProducts();   return true;
             case 3:  checkout();         return true;
-	            case 4:  viewOrderHistory(); return true;
-	            case 5:  logout();           return true;
+	        case 4:  viewOrderHistory(); return true;
+	        case 5:  logout();           return true;
             case 6:  return false;
             default: ui.println("Invalid"); return true;
         }
     }
+
+    // show product list
     private void browseProducts() {
         ui.heading("Product Catalogue");
 
@@ -148,7 +153,7 @@ public class ConsoleApp {
     }
 
 
-
+    // Checkout for customer payment
     private void checkout() {
         ui.heading("Checkout");
 
@@ -197,6 +202,8 @@ public class ConsoleApp {
         } catch (Exception e) {
             ui.println("Checkout is failed: " + e.getMessage());}}
 
+
+    // show customer his order history
     private void viewOrderHistory() {
         ui.heading("Order History");
 
@@ -212,6 +219,7 @@ public class ConsoleApp {
            + " — " + o.getPlacedAt().toLocalDate());
   }}
 
+    // logout 
     private void logout() {
         ui.println("Logged out.., " + loggedInCustomer.getFullName() + ".");
         loggedInCustomer = null;

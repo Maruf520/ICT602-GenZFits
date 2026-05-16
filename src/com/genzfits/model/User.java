@@ -3,6 +3,7 @@ package com.genzfits.model;
 //This is the abstract base class for all users in this system.
 public abstract class User {
 
+    // declaring basic variables for the user creation
     protected final String id;
     protected final String email;
     protected final String passwordHash; //here we do not store plane text. we make the hash of password.
@@ -15,10 +16,11 @@ public abstract class User {
         this.fullName = fullName;
     }
 
+    // getter methods
     public String getId()           { return id; }
     public String getEmail()        { return email; }
     public String getPasswordHash() { return passwordHash; }
     public String getFullName()     { return fullName; }
-
+    
     public abstract String getRoleLabel();
 }

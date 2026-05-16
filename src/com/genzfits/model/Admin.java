@@ -16,6 +16,7 @@ public class Admin extends User {
 
     public String getAdminLevel() { return adminLevel; }
 
+    // assigning a user with admin priviledge
     @Override
     public String getRoleLabel() {
         return "Admin (" + adminLevel + ")";

@@ -30,6 +30,7 @@ public class Order {
         this.status = OrderStatus.PENDING;
     }
 
+    // getter methods
     public String          getId()                   { return id; }
     public Customer        getCustomer()             { return customer; }
     public List<OrderItem> getItems()                { return items; }
@@ -40,6 +41,7 @@ public class Order {
     public OrderStatus     getStatus()               { return status; }
     public String          getPaymentTransactionId() { return paymentTransactionId; }
 
+    // toggle paid status
     public void markPaid(String transactionId) {
         this.paymentTransactionId = transactionId;
         this.status = OrderStatus.PAID;

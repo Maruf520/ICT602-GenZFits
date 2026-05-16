@@ -23,14 +23,17 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
+    // retriving all exisitng products
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
 
+    // catagorising the product by particular category
     public List<Product> browseByCategory(Category category) {
         return productRepository.findByCategory(category);
     }
 
+    // finding specific product by productId
     public Optional<Product> getProductById(String productId) {
         return productRepository.findById(productId);
     }

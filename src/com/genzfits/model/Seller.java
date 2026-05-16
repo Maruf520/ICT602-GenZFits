@@ -17,6 +17,7 @@ public class Seller extends User {
         this.products = new ArrayList<>();
     }
 
+    // getter methods
     public String        getBusinessName() { return businessName; }
     public List<Product> getProducts()     { return products; }
 

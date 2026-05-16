@@ -6,7 +6,6 @@ import java.util.List;
 
 
 //it holds customers selected item before checkout
-//
 public class ShoppingCart {
 
     private final Customer owner;
@@ -17,11 +16,12 @@ public class ShoppingCart {
         this.items = new ArrayList<>();
     }
 
+    // getter methods
     public Customer       getOwner() { return owner; }
     public List<CartItem> getItems() { return items; }
     
     
-//This will add item to the cart 
+    //This will add item to the cart 
     public void addItem(Product product, int quantity) {
         for (CartItem existing : items) {
             if (existing.getProduct().getId().equals(product.getId())) {

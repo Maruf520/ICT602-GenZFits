@@ -14,14 +14,18 @@ public class OrderItem {
         this.priceAtPurchase = priceAtPurchase;
     }
 
+
+    // getter methods
     public Product    getProduct()         { return product; }
     public int        getQuantity()        { return quantity; }
     public BigDecimal getPriceAtPurchase() { return priceAtPurchase; }
 
+    // calculating subtotal amount based on quantity
     public BigDecimal getSubtotal() {
         return priceAtPurchase.multiply(new BigDecimal(quantity));
     }
 
+    
     @Override
     public String toString() {
         return String.format("%d x %s @ $%s = $%s",
