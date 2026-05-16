@@ -8,6 +8,7 @@ import com.genzfits.model.Customer;
 import com.genzfits.model.Product;
 import com.genzfits.presentation.ConsoleApp;
 import com.genzfits.service.AuthService;
+import com.genzfits.service.CartService;
 import com.genzfits.service.OrderService;
 import com.genzfits.service.PaymentService;
 import com.genzfits.service.ProductService;
@@ -31,11 +32,11 @@ public class Main {
          ProductService productService = new ProductService(productRepository);
       PaymentService paymentService = new PaymentService();
         OrderService orderService     = new OrderService(orderRepository, paymentService);
-
+        CartService cartService = new CartService();
   seedDemoData(userRepository, productRepository);
 
 
-           ConsoleApp app = new ConsoleApp(authService, productService,  orderService);
+           ConsoleApp app = new ConsoleApp(authService, productService, cartService, orderService);
         app.run();
     }
 //Demo Customer with hashed password.

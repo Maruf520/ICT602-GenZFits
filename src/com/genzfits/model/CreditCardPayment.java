@@ -17,7 +17,7 @@ public class CreditCardPayment extends PaymentMethod {
     @Override
     public PaymentResult process(BigDecimal amount) {
         if (cardNumber == null || cardNumber.length() < 13) {
-            return new PaymentResult(false, null, "Invalid card number");
+            return new PaymentResult(false, null, "Invalid card number , card number must be at least 13 digits");
         }
         String txnId = "STRIPE-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
         return new PaymentResult(true, txnId,
