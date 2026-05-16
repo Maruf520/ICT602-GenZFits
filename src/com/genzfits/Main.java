@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 
 
     // This is the  entry point of this Application.
-      //It contain other dependancy from other packages
+     //It contain other dependancy from other packages
 
 public class Main {
 
@@ -38,7 +38,7 @@ public class Main {
            ConsoleApp app = new ConsoleApp(authService, productService,  orderService);
         app.run();
     }
-
+//Demo Customer with hashed password.
     private static void seedDemoData(UserRepository userRepository,
                                      ProductRepository productRepository) {
         Customer demo = new Customer(
@@ -47,7 +47,7 @@ public class Main {
                 PasswordHasher.hash("maruf1234"),
                 "Maruf");
         userRepository.save(demo);
-
+//Sample products with categories
         productRepository.save(new Product("P-001", "Slim-Fit Denim Jeans",    "UrbanLine",  Category.CLOTHING,  new BigDecimal("89.95"),  25, "S-001"));
         	productRepository.save(new Product("P-002", "Oversized Cotton Hoodie", "Streetwave", Category.CLOTHING,  new BigDecimal("69.00"),  40, "S-001"));
           productRepository.save(new Product("P-003", "Classic White Sneakers",  "PaceForm",   Category.FOOTWEAR,  new BigDecimal("129.50"), 15, "S-002"));

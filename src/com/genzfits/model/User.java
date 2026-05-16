@@ -1,10 +1,11 @@
 package com.genzfits.model;
 
+//This is the abstract base class for all users in this system.
 public abstract class User {
 
     protected final String id;
     protected final String email;
-    protected final String passwordHash;
+    protected final String passwordHash; //here we do not store plane text. we make the hash of password.
     protected final String fullName;
 
     protected User(String id, String email, String passwordHash, String fullName) {
