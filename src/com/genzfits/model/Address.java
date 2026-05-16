@@ -17,12 +17,14 @@ public class Address {
         this.country = country;
     }
 
+    // getter methods
     public String getStreet()   { return street; }
     public String getSuburb()   { return suburb; }
     public String getState()    { return state; }
     public String getPostcode() { return postcode; }
     public String getCountry()  { return country; }
 
+    // getting the whole address in a string form
     @Override
     public String toString() {
         return street + ", " + suburb + " " + state + " " + postcode + ", " + country;

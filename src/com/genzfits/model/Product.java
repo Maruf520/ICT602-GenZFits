@@ -2,8 +2,12 @@ package com.genzfits.model;
 
 import java.math.BigDecimal;
 
+
+//This is the product class. It lists items for sales.		
+//Each products belongs to seller and one category.
 public class Product {
 
+    // declaring private variables
     private final String id;
     private final String name;
     private final String brand;
@@ -23,6 +27,7 @@ public class Product {
         this.sellerId = sellerId;
     }
 
+    // getter methods
     public String     getId()            { return id; }
     public String     getName()          { return name; }
     public String     getBrand()         { return brand; }
@@ -31,6 +36,8 @@ public class Product {
     public int        getStockQuantity() { return stockQuantity; }
     public String     getSellerId()      { return sellerId; }
 
+    //stock is reducced when one order placed successfully.
+    //It will throw exception if there is not enough stock.
     public void decreaseStock(int quantity) {
         if (quantity > stockQuantity) {
             throw new IllegalArgumentException("Not enough stock for " + name);
@@ -38,6 +45,8 @@ public class Product {
         this.stockQuantity -= quantity;
     }
 
+    
+    //This part checks the product has any stock or not.
     public boolean isInStock() {
         return stockQuantity > 0;
     }

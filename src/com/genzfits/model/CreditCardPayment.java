@@ -16,19 +16,21 @@ public class CreditCardPayment extends PaymentMethod {
 
     @Override
     public PaymentResult process(BigDecimal amount) {
+        // verifing card Number
         if (cardNumber == null || cardNumber.length() < 13) {
-            return new PaymentResult(false, null, "Invalid card number");
+            return new PaymentResult(false, null, "Invalid card number , card number must be at least 13 digits");
         }
         String txnId = "STRIPE-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
         return new PaymentResult(true, txnId,
-                "Credit card charged $" + amount + " successfully");
+                "Card charged $" + amount + " successfully");
     }
 
+    //displaying only last 4 digit of card
     @Override
     public String getDisplayLabel() {
         String last4 = cardNumber.length() >= 4
                 ? cardNumber.substring(cardNumber.length() - 4)
                 : cardNumber;
-        return "Credit Card ****" + last4;
+        return "Card ****" + last4;
     }
 }

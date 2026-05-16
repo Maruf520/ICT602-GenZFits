@@ -1,3 +1,5 @@
+//this class extends user class with some extra shoppiong behavour.
+//The customer is the central actor for this platform.
 package com.genzfits.model;
 
 import java.util.ArrayList;
@@ -5,6 +7,7 @@ import java.util.List;
 
 public class Customer extends User {
 
+    // private variables for every customer
     private final ShoppingCart cart;
     private final List<Address> savedAddresses;
     private final List<PaymentMethod> savedPaymentMethods;
@@ -16,16 +19,15 @@ public class Customer extends User {
         this.savedPaymentMethods = new ArrayList<>();
     }
 
-    public ShoppingCart        getCart()                { return cart; }
+    // getter methods
+    public ShoppingCart        getCart()                { return cart; } //The cart belongs to customer
     public List<Address>       getSavedAddresses()      { return savedAddresses; }
     public List<PaymentMethod> getSavedPaymentMethods() { return savedPaymentMethods; }
 
+    
+    // Add a new shipping address
     public void addAddress(Address address) {
         savedAddresses.add(address);
-    }
-
-    public void addPaymentMethod(PaymentMethod method) {
-        savedPaymentMethods.add(method);
     }
 
     @Override

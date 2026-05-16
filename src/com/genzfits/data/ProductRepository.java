@@ -15,19 +15,22 @@ public class ProductRepository {
 
     private final Map<String, Product> productsById = new HashMap<>();
 
+    // Saving a new product into the system
     public void save(Product product) {
         productsById.put(product.getId(), product);
     }
 
+    // finding product by productId
     public Optional<Product> findById(String id) {
         return Optional.ofNullable(productsById.get(id));
     }
 
+    // listing all the product
     public List<Product> findAll() {
         return new ArrayList<>(productsById.values());
     }
 
-    /** Filter by category — supports the FR2 browsing requirement. */
+    // Filter by category  
     public List<Product> findByCategory(Category category) {
         List<Product> result = new ArrayList<>();
         for (Product p : productsById.values()) {

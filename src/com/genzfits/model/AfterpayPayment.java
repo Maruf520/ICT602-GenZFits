@@ -14,9 +14,11 @@ public class AfterpayPayment extends PaymentMethod {
 
     @Override
     public PaymentResult process(BigDecimal amount) {
+        // verifing emails
         if (afterpayAccountEmail == null || !afterpayAccountEmail.contains("@")) {
             return new PaymentResult(false, null, "Invalid Afterpay account");
         }
+        // dividing the payment into 4 instalment
         BigDecimal instalment = amount.divide(new BigDecimal(4), 2,
                 java.math.RoundingMode.HALF_UP);
         String txnId = "AFTPY-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
